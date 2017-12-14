@@ -16,15 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FirefighterRaffelActivity" />
-        <activity android:name=".FirefighterPrizesActivity" />
-        <activity android:name=".TvPrizeForFireFighterActivity" />
-        <activity android:name=".TeslaRaffelActivity" />
-        <activity android:name=".SpaceXRaffelActivity" />
-        <activity android:name=".CarFireFighterActivity" />
-        <activity android:name=".TripPrizeFireFighterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RaffleActivity" />
+        <activity android:name=".PrizesActivity" />
+        <activity android:name=".PrizeDetailsActivity" />
+        <activity android:name=".LogInActivity" />
+        <activity android:name=".SginUpActivity" />
     </application>
 
 </manifest>

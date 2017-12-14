@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
             fireFighterRaffel_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(HomeActivity.this,FirefighterRaffelActivity.class));
+                    startActivity(new Intent(HomeActivity.this,RaffleActivity.class));
                 }
             });
             teslaRaffel_btn.setOnClickListener(new View.OnClickListener() {
