@@ -3,6 +3,7 @@ package chilerifa.nicolasgh.com.chilerifa;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
     ListView raffleList;
@@ -14,6 +15,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
 
         raffleList = findViewById(R.id.raffle_list);
         CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);

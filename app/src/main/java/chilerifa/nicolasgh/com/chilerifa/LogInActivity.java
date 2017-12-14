@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,6 +25,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private static final String URL_SERVICE_API = "http://192.168.109.129/app_dev.php";
 
     Button btnLogin;
+    EditText etPassword;
+    EditText etUsername;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +35,34 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_home);
 
         btnLogin = findViewById(R.id.btnLogin);
+        etPassword = findViewById(R.id.etPassword);
+        etUsername = findViewById(R.id.etUserName);
+
         btnLogin.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.btnLogin){
-            startActivity(new Intent(LogInActivity.this,HomeActivity.class ));
+        switch (view.getId()){
+            case R.id.btnLogin:
+                if(this.validateFields()){
+                    allowEntry(etUsername.getText().toString(), etPassword.getText().toString());
+                    startActivity(new Intent(LogInActivity.this,HomeActivity.class ));
+                } else {
+                    Toast.makeText(this, "Incorrect values", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
+
+    }
+
+    private boolean validateFields(){
+        return etUsername.getText() != null && !etUsername.getText().toString().isEmpty()
+                && etPassword.getText() != null && !etPassword.getText().toString().isEmpty();
     }
 
 
-    private void consultarDatos(int idConsulta) {
+    private void allowEntry(String username, String password) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         boolean resolution = false;
 
@@ -50,9 +70,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String respuestaRecibida) {
-                        //En caso de éxito en la solicitud. Aquí se gestionan los datos de la respuesta.
-                        //En este caso se extrae un valor de la respuesta, convirtiendola primero a un objeto JSON.
-
                         try {
                             JSONObject respuestaJson = new JSONObject(respuestaRecibida);
                         } catch (JSONException e) {
@@ -63,13 +80,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //En caso de error en la solicitud
+
             }
         });
         requestQueue.add(stringRequest);
-
-        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
-
     }
 
 }
