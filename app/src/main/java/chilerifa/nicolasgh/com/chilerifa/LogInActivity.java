@@ -8,35 +8,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final String URL_SERVICE_API = "http://192.168.109.129/app_dev.php";
+    private static final String URL_SERVICE_ACCOUNTS_API = "http://159.203.79.251/app_dev.php/accounts";
 
     Button btnLogin;
     EditText etPassword;
     EditText etUsername;
 
+    boolean resolution = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_log_in);
 
-        btnLogin = findViewById(R.id.btnLogin);
-        etPassword = findViewById(R.id.etPassword);
-        etUsername = findViewById(R.id.etUserName);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        etUsername = (EditText) findViewById(R.id.etUserName);
 
         btnLogin.setOnClickListener(this);
     }
@@ -46,8 +46,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.btnLogin:
                 if(this.validateFields()){
-                    allowEntry(etUsername.getText().toString(), etPassword.getText().toString());
-                    startActivity(new Intent(LogInActivity.this,HomeActivity.class ));
+                    allowEntry();
+                    if(resolution){
+                        Intent intent = new Intent(this, HomeActivity.class);
+                        intent.putExtra("username",etUsername.getText().toString());
+                        intent.putExtra("password",etPassword.getText().toString());
+
+                        startActivity(intent);
+                    }
                 } else {
                     Toast.makeText(this, "Incorrect values", Toast.LENGTH_SHORT).show();
                 }
@@ -61,29 +67,42 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 && etPassword.getText() != null && !etPassword.getText().toString().isEmpty();
     }
 
-
-    private void allowEntry(String username, String password) {
+    private void allowEntry() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        boolean resolution = false;
+        final String url = URL_SERVICE_ACCOUNTS_API +"?nickname="+etUsername.getText().toString()+"&password="+etPassword.getText().toString();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_SERVICE_API,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String respuestaRecibida) {
+                    public void onResponse(String inputRequest) {
                         try {
-                            JSONObject respuestaJson = new JSONObject(respuestaRecibida);
+                            JSONObject jsonRequest = new JSONObject(inputRequest);
+
+                            JSONArray array = jsonRequest.getJSONArray("hydra:member");
+
+                            for (int i = 0;  i < array.length() ; i++){
+                                JSONObject aux = array.getJSONObject(i);
+
+                                String nickname = aux.getString("nickname");
+                                String password = aux.getString("password");
+
+                                if(etUsername.getText().toString().equals(nickname)
+                                        && etPassword.getText().toString().equals(password)){
+                                    resolution = true;
+                                    break;
+                                }
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                resolution = false;
             }
         });
         requestQueue.add(stringRequest);
     }
-
 }
