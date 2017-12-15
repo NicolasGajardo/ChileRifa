@@ -16,7 +16,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Welcome", Toast.LENGTH_LONG).show();
 
         raffleList = findViewById(R.id.raffle_list);
         CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);

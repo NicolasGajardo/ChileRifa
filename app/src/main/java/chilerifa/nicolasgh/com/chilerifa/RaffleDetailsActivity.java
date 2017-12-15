@@ -19,7 +19,6 @@ public class RaffleDetailsActivity extends AppCompatActivity {
         Button prizeButton = findViewById(R.id.btn_prizes);
         Button purchaseButton = findViewById(R.id.btn_purchase);
 
-
         prizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,6 +31,5 @@ public class RaffleDetailsActivity extends AppCompatActivity {
                 //Some Logic for the purchase
             }
         });
-
     }
 }
