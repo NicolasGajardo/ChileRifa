@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class RaffleActivity extends AppCompatActivity {
+public class RaffleDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class RaffleActivity extends AppCompatActivity {
         prizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RaffleActivity.this,PrizesActivity.class ));
+                startActivity(new Intent(RaffleDetailsActivity.this,PrizesActivity.class ));
             }
         });
         purchaseButton.setOnClickListener(new View.OnClickListener() {
