@@ -26,7 +26,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     Button btnLogin;
     EditText etPassword;
     EditText etUsername;
-
+    Integer balance;
     boolean resolution = false;
 
     @Override
@@ -51,6 +51,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                         Intent intent = new Intent(this, HomeActivity.class);
                         intent.putExtra("username",etUsername.getText().toString());
                         intent.putExtra("password",etPassword.getText().toString());
+                        intent.putExtra("balance",balance);
 
                         startActivity(intent);
                     }
@@ -74,9 +75,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String inputRequest) {
+                    public void onResponse(String inputResponse) {
                         try {
-                            JSONObject jsonRequest = new JSONObject(inputRequest);
+                            JSONObject jsonRequest = new JSONObject(inputResponse);
 
                             JSONArray array = jsonRequest.getJSONArray("hydra:member");
 
@@ -85,7 +86,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
                                 String nickname = aux.getString("nickname");
                                 String password = aux.getString("password");
-
+                                balance = aux.getInt("balance");
                                 if(etUsername.getText().toString().equals(nickname)
                                         && etPassword.getText().toString().equals(password)){
                                     resolution = true;

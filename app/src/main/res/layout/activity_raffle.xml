@@ -15,6 +15,27 @@
         android:id="@+id/text_titulo"
         />
 
+    <TextView
+        android:id="@+id/tv_cost"
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"/>
+
+    <TextView
+        android:id="@+id/text_description"
+        android:text="Descripción"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn_prizes"
+        android:layout_alignStart="@+id/btn_prizes"
+        android:layout_below="@+id/text_titulo"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="61dp" />
+
     <Button
         android:id="@+id/btn_prizes"
         android:layout_width="wrap_content"

@@ -1,11 +1,10 @@
 package chilerifa.nicolasgh.com.chilerifa;
 
-import android.content.Context;
-import android.graphics.ColorSpace;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,10 +19,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener{
     ListView raffleList;
-    String[] rafflename; //= {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
-    String[] raffleDescruption = {"Buy or Burn", "Changing the way you drive", "Help us help earth", "To a brighter future", "Mans new best friend"};
+    int[] raffleIds = {1, 2, 3, 4, 5};
+    String[] raffleName = {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
+    String[] raffleDescription = {"Buy or Burn", "Changing the way you drive", "Help us help earth", "To a brighter future", "Mans new best friend"};
     Integer[] imgid = {R.drawable.firefighter, R.drawable.tesla, R.drawable.spacex, R.drawable.solarcity, R.drawable.openai};
     private static final String URL_SERVICE_API = "http://159.203.79.251/app_dev.php";
 
@@ -34,81 +34,31 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
-        getRaffles();
         raffleList = findViewById(R.id.raffle_list);
-        //CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
-        //raffleList.setAdapter(customRaffleList);
+
+        CustomRaffleList customRaffleList = new CustomRaffleList(this, raffleName, raffleDescription, imgid);
+        raffleList.setAdapter(customRaffleList);
+        raffleList.setOnItemClickListener(this);
     }
 
-    private void getRaffles() {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_SERVICE_API+"/raffles",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String inputResponse) {
-                        try {
-                            JSONObject jsonRequest = new JSONObject(inputResponse);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.raffle_list:
+                Intent intent = new Intent(this, RaffleDetailsActivity.class);
+                intent.replaceExtras(this.getIntent().getExtras());
+                startActivity(intent);
+                break;
+        }
+    }
 
-                            JSONArray array = jsonRequest.getJSONArray("hydra:member");
-
-                            for (int i = 0;  i < array.length() ; i++){
-                                JSONObject aux = array.getJSONObject(i);
-                                String name = aux.getString("name");
-                                String description = aux.getString("description");
-                                Integer cost = aux.getInt("cost");
-
-                                View view = new View(getApplicationContext());
-                                //view header = getLayoutInflater().inflate(name, null);
-                                raffleList.addView(view);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        requestQueue.add(stringRequest);
+    public void onItemClick(AdapterView<?> var1, View var2, int var3, long var4){
+        Intent intent = new Intent(this, RaffleDetailsActivity.class);
+        intent.replaceExtras(this.getIntent().getExtras());
+        startActivity(intent);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
-
     //Making a method for giving the button a action
     //For now using a button to chage between activities
         private void configureRaffelButtonClicks(){
@@ -136,7 +86,5 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(new Intent(HomeActivity.this,SpaceXRaffelActivity.class));
                 }
             });
+
 */
-
-
-
