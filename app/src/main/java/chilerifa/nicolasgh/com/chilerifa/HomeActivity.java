@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     int[] raffleIds = {1, 2, 3, 4, 5};
     String[] raffleName = {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
     String[] raffleDescription = {"Buy or Burn", "Changing the way you drive", "Help us help earth", "To a brighter future", "Mans new best friend"};
+
     Integer[] imgid = {R.drawable.firefighter, R.drawable.tesla, R.drawable.spacex, R.drawable.solarcity, R.drawable.openai};
     private static final String URL_SERVICE_API = "http://159.203.79.251/app_dev.php";
 
@@ -35,10 +37,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
         raffleList = findViewById(R.id.raffle_list);
+       CustomRaffleList customRaffleList = new CustomRaffleList(this, raffleName, raffleDescription, imgid);
+       raffleList.setAdapter(customRaffleList);
+       raffleClicks();
+    }
 
-        CustomRaffleList customRaffleList = new CustomRaffleList(this, raffleName, raffleDescription, imgid);
-        raffleList.setAdapter(customRaffleList);
-        raffleList.setOnItemClickListener(this);
+    public void raffleClicks(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,raffleName);
+        raffleList.setAdapter(adapter);
+        raffleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(HomeActivity.this,RaffleDetailsActivity.class));
+            }
+        });
+
     }
 
     @Override
