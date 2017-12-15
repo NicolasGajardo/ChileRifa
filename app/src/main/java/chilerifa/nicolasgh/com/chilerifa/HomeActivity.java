@@ -12,12 +12,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomeActivity extends AppCompatActivity {
     ListView raffleList;
-    String[] rafflename; //= {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
+    String[] rafflename = new String[50]; //= {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
     String[] raffleDescruption = {"Buy or Burn", "Changing the way you drive", "Help us help earth", "To a brighter future", "Mans new best friend"};
     Integer[] imgid = {R.drawable.firefighter, R.drawable.tesla, R.drawable.spacex, R.drawable.solarcity, R.drawable.openai};
     private static final String URL_SERVICE_API = "http://159.203.79.251/app_dev.php";
@@ -31,8 +32,8 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
         getRaffles();
         raffleList = findViewById(R.id.raffle_list);
-        //CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
-        //raffleList.setAdapter(customRaffleList);
+//        CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
+//        raffleList.setAdapter(customRaffleList);
     }
 
     private void getRaffles() {
@@ -43,8 +44,19 @@ public class HomeActivity extends AppCompatActivity {
                     public void onResponse(String respuestaRecibida) {
                         try {
                             JSONObject respuestaJson = new JSONObject(respuestaRecibida);
-                            respuestaJson.get("hydra:member");
-                            System.out.println("otto");
+                            JSONArray array = respuestaJson.getJSONArray("hydra:member");
+
+                            for (int i = 0;  i < array.length() ; i++){
+                                JSONObject aux = array.getJSONObject(i);
+
+                                String name = aux.getString("name");
+                                if(name!=null){
+                                    //TODO: deberia hacerse con un arraylist
+                                    rafflename[i] = name;
+                                }
+                            }
+//                            CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
+//                            raffleList.setAdapter(customRaffleList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
