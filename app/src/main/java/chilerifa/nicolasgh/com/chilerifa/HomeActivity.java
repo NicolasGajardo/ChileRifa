@@ -1,7 +1,11 @@
 package chilerifa.nicolasgh.com.chilerifa;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,7 +22,7 @@ import org.json.JSONObject;
 
 public class HomeActivity extends AppCompatActivity {
     ListView raffleList;
-    String[] rafflename = new String[50]; //= {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
+    String[] rafflename = {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
     String[] raffleDescruption = {"Buy or Burn", "Changing the way you drive", "Help us help earth", "To a brighter future", "Mans new best friend"};
     Integer[] imgid = {R.drawable.firefighter, R.drawable.tesla, R.drawable.spacex, R.drawable.solarcity, R.drawable.openai};
     private static final String URL_SERVICE_API = "http://159.203.79.251/app_dev.php";
@@ -32,9 +36,24 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
         getRaffles();
         raffleList = findViewById(R.id.raffle_list);
-//        CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
-//        raffleList.setAdapter(customRaffleList);
+       CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
+       raffleList.setAdapter(customRaffleList);
+       raffleClicks();
     }
+
+    public void raffleClicks(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,rafflename);
+        raffleList.setAdapter(adapter);
+        raffleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(HomeActivity.this,RaffleDetailsActivity.class));
+            }
+        });
+
+    }
+
+
 
     private void getRaffles() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
