@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RaffleActivity" />
+        <activity android:name=".RaffleDetailsActivity" />
         <activity android:name=".PrizesActivity" />
         <activity android:name=".PrizeDetailsActivity" />
         <activity android:name=".LogInActivity" />
