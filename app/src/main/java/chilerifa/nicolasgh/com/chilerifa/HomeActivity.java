@@ -5,23 +5,58 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class HomeActivity extends AppCompatActivity {
     ListView raffleList;
-    String[] rafflename = {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
+    String[] rafflename; //= {"Bombero", "Tesla", "SpaceX", "SolarCity", "OpenAI"};
     String[] raffleDescruption = {"Buy or Burn", "Changing the way you drive", "Help us help earth", "To a brighter future", "Mans new best friend"};
     Integer[] imgid = {R.drawable.firefighter, R.drawable.tesla, R.drawable.spacex, R.drawable.solarcity, R.drawable.openai};
+    private static final String URL_SERVICE_API = "http://159.203.79.251/app_dev.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toast.makeText(this, "Welcome", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
+        getRaffles();
         raffleList = findViewById(R.id.raffle_list);
-        CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
-        raffleList.setAdapter(customRaffleList);
+        //CustomRaffleList customRaffleList = new CustomRaffleList(this, rafflename, raffleDescruption, imgid);
+        //raffleList.setAdapter(customRaffleList);
+    }
 
+    private void getRaffles() {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_SERVICE_API+"/raffles",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String respuestaRecibida) {
+                        try {
+                            JSONObject respuestaJson = new JSONObject(respuestaRecibida);
+                            respuestaJson.get("hydra:member");
+                            System.out.println("otto");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(stringRequest);
     }
 }
 
