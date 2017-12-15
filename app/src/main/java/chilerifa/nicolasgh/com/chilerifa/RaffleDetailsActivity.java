@@ -19,12 +19,13 @@ import org.json.JSONObject;
 
 public class RaffleDetailsActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final String URL_SERVICE_API = "http://159.203.79.251/app_dev.php";
+    private static final String URL_SERVICE_API_RAFFLE = "http://159.203.79.251/app_dev.php/raffles/";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_raffle);
         configureRaffleButtonClicks();
     }
@@ -36,14 +37,16 @@ public class RaffleDetailsActivity extends AppCompatActivity implements View.OnC
         prizeButton.setOnClickListener(this);
         purchaseButton.setOnClickListener(this);
 
-
     }
+
+
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_purchase:
-
+                    this.purchase();
                 break;
             case R.id.btn_prizes:
                 startActivity(new Intent(RaffleDetailsActivity.this,PrizesActivity.class ));
@@ -53,39 +56,9 @@ public class RaffleDetailsActivity extends AppCompatActivity implements View.OnC
 
 
 
-    private void init() {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final String url = URL_SERVICE_API + "/raffles/1";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String inputResponse) {
-                        try {
-                            JSONObject jsonRequest = new JSONObject(inputResponse);
-
-                            JSONArray array = jsonRequest.getJSONArray("hydra:member");
-
-                            for (int i = 0;  i < array.length() ; i++){
-                                JSONObject aux = array.getJSONObject(i);
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
-        requestQueue.add(stringRequest);
-    }
-
     private void purchase() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        final String url = URL_SERVICE_API + "";
+        final String url = URL_SERVICE_API_RAFFLE + "/";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
