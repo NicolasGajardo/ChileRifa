@@ -1,7 +1,11 @@
 package chilerifa.nicolasgh.com.chilerifa;
 
+import android.content.Context;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -12,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,11 +45,23 @@ public class HomeActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_SERVICE_API+"/raffles",
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String respuestaRecibida) {
+                    public void onResponse(String inputResponse) {
                         try {
-                            JSONObject respuestaJson = new JSONObject(respuestaRecibida);
-                            respuestaJson.get("hydra:member");
-                            System.out.println("otto");
+                            JSONObject jsonRequest = new JSONObject(inputResponse);
+
+                            JSONArray array = jsonRequest.getJSONArray("hydra:member");
+
+                            for (int i = 0;  i < array.length() ; i++){
+                                JSONObject aux = array.getJSONObject(i);
+                                String name = aux.getString("name");
+                                String description = aux.getString("description");
+                                Integer cost = aux.getInt("cost");
+
+                                View view = new View(getApplicationContext());
+                                //view header = getLayoutInflater().inflate(name, null);
+                                raffleList.addView(view);
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
