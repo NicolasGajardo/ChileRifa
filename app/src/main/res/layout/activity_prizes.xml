@@ -8,30 +8,12 @@
     android:orientation="vertical"
     >
 
-    <TextView
-        android:text="Esto es la pantalla de ver premios de bomberos "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_titulo"
-        />
 
-    <Button
-        android:text="T.V"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_prize_tv"
-        />
-    <Button
-        android:text="auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_prize_car"
-        />
-    <Button
-        android:text="Viaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_prize_trip"
-        />
+    <ListView
+        android:id="@+id/prize_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 
 </LinearLayout>

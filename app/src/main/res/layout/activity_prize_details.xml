@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="chilerifa.nicolasgh.com.chilerifa.PrizeDetailsActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="chilerifa.nicolasgh.com.chilerifa.PrizeDetailsActivity">
 
-    <TextView
-        android:text="Tesla Roadster 2020 color rojo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_car"
-        />
-<Button
-    android:text="Atras"
+<MultiAutoCompleteTextView
+    android:id="@+id/PrizeName"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/btn_back_car"
-    />
-</LinearLayout>
+    android:text="Led Samsung 55 Puhd 4k Curvo Smart Tv " />
+
+    <ImageView
+        android:id="@+id/imagePrizeView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/PrizeName"
+        android:layout_weight="0.11"
+        app:srcCompat="@drawable/tvprize" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imagePrizeView"
+        android:text="Atras"
+      />
+
+</RelativeLayout>
