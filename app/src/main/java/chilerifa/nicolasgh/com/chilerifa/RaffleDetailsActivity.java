@@ -27,7 +27,7 @@ public class RaffleDetailsActivity extends AppCompatActivity implements View.OnC
 
     private static final String URL_SERVICE_API_RAFFLE = "http://159.203.79.251/app_dev.php";
     private Raffle rafflePersisted;
-
+    private Button purchaseButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,7 @@ public class RaffleDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void configureRaffleButtonClicks() {
         Button prizeButton = findViewById(R.id.btn_prizes);
-        Button purchaseButton = findViewById(R.id.btn_purchase);
+        purchaseButton = findViewById(R.id.btn_purchase);
 
         prizeButton.setOnClickListener(this);
         purchaseButton.setOnClickListener(this);
@@ -52,6 +52,7 @@ public class RaffleDetailsActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_purchase:
+                purchaseButton.setEnabled(false);
                     this.purchase(rafflePersisted);
                 break;
             case R.id.btn_prizes:
@@ -118,8 +119,9 @@ public class RaffleDetailsActivity extends AppCompatActivity implements View.OnC
                 }
             };
             queueRequestVolley.add(stringReq);
-
+            Toast.makeText(this, "Has comprado esta rifa, tu saldo es: "+ balance , Toast.LENGTH_SHORT).show();
         } else {
+            purchaseButton.setEnabled(true);
             Toast.makeText(this, "Saldo insuficiente. Tu saldo es: " + balance , Toast.LENGTH_SHORT).show();
         }
     }
@@ -148,7 +150,7 @@ public class RaffleDetailsActivity extends AppCompatActivity implements View.OnC
                         try {
                             JSONObject json = new JSONObject(respuestaRecibida);
                             getIntent().putExtra("balance",json.getInt("balance"));
-
+                            purchaseButton.setEnabled(true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
