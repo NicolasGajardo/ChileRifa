@@ -44,7 +44,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         intent = new Intent(this, RaffleDetailsActivity.class);
-        intent.replaceExtras(getIntent().getExtras());
+        Bundle bundle = this.getIntent().getExtras();
+        intent.replaceExtras(bundle);
+
+        //intent.putExtra("account_id",bundle.getInt("account_id"));
 
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
         raffleList = findViewById(R.id.raffle_list);
@@ -114,33 +117,3 @@ public class HomeActivity extends AppCompatActivity {
 
 
 }
-/*
-    //Making a method for giving the button a action
-    //For now using a button to chage between activities
-        private void configureRaffelButtonClicks(){
-            //Declare all the raffels (Buttons "For now")
-            Button fireFighterRaffel_btn = (Button)findViewById(R.id.btn_bombmero);
-            Button teslaRaffel_btn = (Button)findViewById(R.id.btn_tesla);
-            Button spaceXRaffel_btn = (Button)findViewById(R.id.btn_spaceX);
-            TextView welcomeMessage = (TextView)findViewById(R.id.tvWelcome);
-
-            fireFighterRaffel_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(HomeActivity.this,RaffleDetailsActivity.class));
-                }
-            });
-            teslaRaffel_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(HomeActivity.this,TeslaRaffelActivity.class));
-                }
-            });
-            spaceXRaffel_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(HomeActivity.this,SpaceXRaffelActivity.class));
-                }
-            });
-
-*/

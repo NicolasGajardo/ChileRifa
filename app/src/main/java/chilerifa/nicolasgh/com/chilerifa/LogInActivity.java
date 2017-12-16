@@ -28,12 +28,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     EditText etUsername;
     Integer balance;
     boolean resolution = false;
+    Intent intent;
+
+    Integer accountId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-
+        intent = new Intent();
         btnLogin = (Button) findViewById(R.id.btnLogin);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etUsername = (EditText) findViewById(R.id.etUserName);
@@ -47,11 +50,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnLogin:
                 if(this.validateFields()){
                     allowEntry();
-                    if(resolution){
-                        Intent intent = new Intent(this, HomeActivity.class);
+                    if(resolution && accountId != null && accountId != 0){
+                        intent = new Intent(this, HomeActivity.class);
                         intent.putExtra("username",etUsername.getText().toString());
                         intent.putExtra("password",etPassword.getText().toString());
                         intent.putExtra("balance",balance);
+                        intent.putExtra("account_id", accountId);
 
                         startActivity(intent);
                     }
@@ -84,8 +88,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             for (int i = 0;  i < array.length() ; i++){
                                 JSONObject aux = array.getJSONObject(i);
 
+                                accountId = aux.getInt("id");
                                 String nickname = aux.getString("nickname");
                                 String password = aux.getString("password");
+
+
                                 balance = aux.getInt("balance");
                                 if(etUsername.getText().toString().equals(nickname)
                                         && etPassword.getText().toString().equals(password)){
